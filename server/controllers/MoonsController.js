@@ -1,8 +1,7 @@
 import express from "express";
-import planetsService from "../services/PlanetsService";
 import moonsService from "../services/MoonsService";
 
-export default class PlanetsController {
+export default class MoonsController {
 
   constructor() {
     this.router = express
@@ -10,7 +9,6 @@ export default class PlanetsController {
       //NOTE  each route gets registered as a .get, .post, .put, or .delete, the first parameter of each method is a string to be concatinated onto the base url registered with the route in main. The second parameter is the method that will be run when this route is hit.
       .get("", this.getAll)
       .get("/:id", this.getById)
-      .get("/:id/moons", this.getMoonsByPlanetId)
       .post("", this.create)
       .put("/:id", this.edit)
       .delete("/:id", this.delete);
@@ -19,7 +17,7 @@ export default class PlanetsController {
 
   async getAll(req, res, next) {
     try {
-      let data = await planetsService.getAll();
+      let data = await moonsService.getAll();
       return res.send(data);
     } catch (error) {
       next(error);
@@ -28,16 +26,7 @@ export default class PlanetsController {
 
   async getById(req, res, next) {
     try {
-      let data = await planetsService.findById(req.params.id);
-      res.send(data)
-    } catch (error) {
-      next(error);
-    }
-  }
-
-  async getMoonsByPlanetId(req, res, next) {
-    try {
-      let data = await moonsService.getByPlanetId(req.params.id);
+      let data = await moonsService.findById(req.params.id);
       res.send(data)
     } catch (error) {
       next(error);
@@ -46,7 +35,7 @@ export default class PlanetsController {
 
   async create(req, res, next) {
     try {
-      let data = await planetsService.create(req.body);
+      let data = await moonsService.create(req.body);
       res.status(201).send(data);
     } catch (error) {
       next(error);
@@ -55,7 +44,7 @@ export default class PlanetsController {
 
   async edit(req, res, next) {
     try {
-      let data = await planetsService.update(req.params.id, req.body);
+      let data = await moonsService.update(req.params.id, req.body);
       res.send(data);
     } catch (error) {
       next(error);
@@ -64,11 +53,10 @@ export default class PlanetsController {
 
   async delete(req, res, next) {
     try {
-      await planetsService.delete(req.params.id);
+      await moonsService.delete(req.params.id);
       res.send("Deleted")
     } catch (error) {
       next(error);
     }
   }
-
 }
