@@ -9,8 +9,12 @@ class PlanetsService {
     return await _repository.find({});
   }
 
-  async getById(id) {
+  async findById(id) {
     return await _repository.findById(id);
+  }
+
+  async getByStarId(id) {
+    return await _repository.find({ starId: id })
   }
 
   async create(rawData) {
